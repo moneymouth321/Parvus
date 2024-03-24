@@ -21,7 +21,8 @@ local PlayerService = game:GetService("Players")
 repeat task.wait() until PlayerService.LocalPlayer
 local LocalPlayer = PlayerService.LocalPlayer
 
-local Branch,NotificationTime,IsLocal = ...
+local Branch = "main"
+local NotificationTime,IsLocal = ...
 local QueueOnTeleport = queue_on_teleport
 or (syn and syn.queue_on_teleport)
 
@@ -83,6 +84,6 @@ Parvus.Game = GetGameInfo()
 LoadScript(Parvus.Game.Script)
 Parvus.Utilities.UI:Notification({
     Title = "Parvus Hub",
-    Description = Parvus.Game.Name .. " loaded!\n\nThis script is open sourced\nIf you have paid for this script\nOr had to go thru ads\nYou have been scammed.",
-    Duration = 30 --NotificationTime
+    Description = Parvus.Game.Name .. " loaded!",
+    Duration = 10
 }) Parvus.Loaded = true

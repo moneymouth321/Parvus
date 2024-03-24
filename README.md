@@ -8,9 +8,10 @@ Made With :heart: By ***AlexR32 @ discord.com / moneymouth321 @ github.com***
 
 ### Loadstring
 ```lua
-local Source = "https://raw.githubusercontent.com/moneymouth321/Parvus/main/"
-loadstring(game:HttpGet(Source .. "Loader.lua"),"Loader")(Branch,5)
-
+local IsDevelopmentBranch,NotificationTime = false,5
+local Branch = "main"
+local Source = "https://raw.githubusercontent.com/moneymouth321/Parvus/" .. Branch .. "/"
+loadstring(game:HttpGet(Source .. "Loader.lua"),"Loader")(Branch,NotificationTime)
 ```
 
 ### Supported Games

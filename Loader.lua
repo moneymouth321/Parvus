@@ -21,8 +21,7 @@ local PlayerService = game:GetService("Players")
 repeat task.wait() until PlayerService.LocalPlayer
 local LocalPlayer = PlayerService.LocalPlayer
 
-local Branch = "main"
-local NotificationTime,IsLocal = ...
+local Branch,NotificationTime,IsLocal = ...
 local QueueOnTeleport = queue_on_teleport
 or (syn and syn.queue_on_teleport)
 

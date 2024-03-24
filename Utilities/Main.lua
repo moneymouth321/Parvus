@@ -112,8 +112,9 @@ function Utility.MakeBeam(Origin,Position,Color)
 	Beam.Color = ColorSequence.new(Color[6])
 	Beam.LightEmission = 1
 	Beam.LightInfluence = 1
-	Beam.TextureMode = Enum.TextureMode.Static
-	Beam.TextureSpeed = 0
+	--Beam.TextureMode = Enum.TextureMode.Static
+	--Beam.TextureSpeed = 0
+    Beam.Texture = "rbxassetid://6060542021"
 	Beam.Transparency = NumberSequence.new(0)
 
 	Beam.Attachment0 = OriginAttachment

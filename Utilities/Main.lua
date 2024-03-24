@@ -152,7 +152,7 @@ function Utility.NewThreadLoop(Wait,Function)
             if not Success then
                 warn("thread error " .. Error)
             elseif Error == "break" then
-                --[[print("thread stopped")]] break
+                break
             end
         end
     end)
@@ -233,17 +233,6 @@ function Utility.JoinDiscord()
     })
 end
 
---[[
-# UI Color
-  - Default   = 1,0.25,1,0,true
-  - Christmas = 0.4541666507720947,0.20942406356334686,0.7490196228027344,0,false
-  - Halloween = 0.0836667,1,1,0,false
-# Background Color
-  - Default   = 1,1,0,0,false
-  - Christmas = 0.12000000476837158,0.10204081237316132,0.9607843160629272,0.5,false
-  - Halloween = 0.0836667,1,1,0,false
-]]
-
 function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
     Window:KeybindList({Enabled = false})
     Window:Watermark({Enabled = true})
@@ -264,7 +253,6 @@ function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
         {"Mountains","rbxassetid://10921801398",false},
         {"Halloween","rbxassetid://11113209821",true},
         {"Christmas","rbxassetid://11711560928",false},
-        --{"A","rbxassetid://5843010904",false},
         {"Polka dots","rbxassetid://6214418014",false},
         {"Mountains","rbxassetid://6214412460",false},
         {"Zigzag","rbxassetid://6214416834",false},
@@ -280,21 +268,6 @@ function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
         {"Fur","rbxassetid://990886896",false},
         {"Marble","rbxassetid://8904067198",false},
         {"Touhou","rbxassetid://646426813",false},
-        --{"Anime","rbxassetid://9730243545",false},
-        --{"Anime2","rbxassetid://12756726256",false},
-        --{"Anime3","rbxassetid://7027352997",false},
-        --{"Anime4","rbxassetid://5931352430",false},
-        --{"Hu Tao Edit","rbxassetid://11424961420",false},
-        --{"Waves","rbxassetid://5351821237",false},
-        --{"Nebula","rbxassetid://159454288",false},
-        --{"VaporWave","rbxassetid://1417494643",false},
-        --{"Clouds","rbxassetid://570557727",false},
-        --{"Twilight","rbxassetid://264907379",false},
-        --{"ZXC Cat","rbxassetid://10300256322",false},
-        --{"Pavuk Redan","rbxassetid://12652997937",false},
-        --{"Pink Anime Girl","rbxassetid://11696859404",false},
-        --{"Dark Anime Girl","rbxassetid://10341849875",false},
-        --{"TokyoGhoul","rbxassetid://14007782187",false}
     }
 
     local BackgroundsList = {}
@@ -321,8 +294,6 @@ function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
             MenuSection:Toggle({Name = "Blur Gameplay",Flag = "UI/Blur",Value = false,
             Callback = function(Bool) Window.Blur = Bool end})
 
-            --MenuSection:Toggle({Name = "Custom Mouse",Flag = "Mouse/Enabled",Value = CustomMouse})
-
             MenuSection:Toggle({Name = "Watermark",Flag = "UI/Watermark/Enabled",Value = true,
             Callback = function(Bool) Window.Watermark.Enabled = Bool end}):Keybind({Flag = "UI/Watermark/Keybind"})
 
@@ -335,6 +306,7 @@ function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
                 setclipboard("Roblox.GameLauncher.joinGameInstance(" .. game.PlaceId .. ", \"" .. game.JobId .. "\");")
             end})
         end
+
         OptionsTab:AddConfigSection("Parvus","Left")
         local BackgroundSection = OptionsTab:Section({Name = "Background",Side = "Right"}) do
             BackgroundSection:Colorpicker({Name = "Color",Flag = "Background/Color",Value = {0.0836667,1,1,0,false},
@@ -348,30 +320,15 @@ function Utility.SettingsSection(Self,Window,UIKeybind,CustomMouse)
             Callback = function(Number) Window.Background.TileSize = UDim2.fromScale(Number / 100,Number / 100) end})
             Window.Background.TileSize = UDim2.fromOffset(TileOffset.Value,TileOffset.Value)
         end
-        --[[local CrosshairSection = OptionsTab:Section({Name = "Custom Crosshair",Side = "Right"}) do
-            CrosshairSection:Toggle({Name = "Enabled",Flag = "Crosshair/Enabled",Value = false})
-            :Colorpicker({Flag = "Crosshair/Color",Value = {1,1,1,0,false}})
-            CrosshairSection:Slider({Name = "Size",Flag = "Crosshair/Size",Min = 0,Max = 20,Value = 4,Unit = "px",Wide = true})
-            CrosshairSection:Slider({Name = "Gap",Flag = "Crosshair/Gap",Min = 0,Max = 10,Value = 2,Unit = "px",Wide = true})
-        end]]
-        local DiscordSection = OptionsTab:Section({Name = "Discord",Side = "Right"}) do
-            DiscordSection:Label({Text = "Invite Code: sYqDpbPYb7"})
-            DiscordSection:Button({Name = "Copy Invite Link",Callback = function() setclipboard("https://discord.gg/sYqDpbPYb7") end})
-            DiscordSection:Button({Name = "Join Through Discord App",Callback = Self.JoinDiscord})
-        end
+
         local CreditsSection = OptionsTab:Section({Name = "Credits",Side = "Right"}) do
-            CreditsSection:Label({Text = "Made by AlexR32 @ discord.com"})
-            CreditsSection:Label({Text = "I dont take friend requests\nfind me on my server: sYqDpbPYb7"})
+            CreditsSection:Label({Text = "Made by AlexR32 @ discord.com / fork by moneymouth321"})
             CreditsSection:Divider({Text = "Special thanks to"})
             CreditsSection:Label({Text = "Jan @ v3rmillion.net\nBackground patterns"})
-            --CreditsSection:Label({Text = "Infinite Yield Team\nServer Hop and Rejoin"})
             CreditsSection:Label({Text = "CornCatCornDog @ v3rmillion.net\nOffscreen Arrows"})
-            --CreditsSection:Label({Text = "coasts @ v3rmillion.net\nUniversal ESP"})
             CreditsSection:Label({Text = "mickeyrbx @ v3rmillion.net\nCalculateBox"})
             CreditsSection:Label({Text = "Kiriot22 @ v3rmillion.net\nAnti plugin crash"})
             CreditsSection:Label({Text = "el3tric @ v3rmillion.net\nBracket V2"})
-            CreditsSection:Label({Text = "and much more people\nbehind this project"})
-            CreditsSection:Label({Text = "❤️ ❤️ ❤️ ❤️"})
         end
     end
 end

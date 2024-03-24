@@ -11,25 +11,6 @@ local PlayerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 local LoadingGui = PlayerGui:WaitForChild("LoadingGui")
 repeat task.wait(0) until not LoadingGui.Enabled
 
-local PromptLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Roblox/main/Useful/PromptLibrary.lua"))()
---[[local Loaded1 = false
-if identifyexecutor() ~= "Synapse X" then
-    PromptLib("Unsupported executor","Synapse X only for safety measures\nIf you still want to use the script, click \"Ok\"",{
-        {Text = "Ok",LayoutOrder = 0,Primary = false,Callback = function() Loaded1 = true end},
-    }) repeat task.wait(0.5) until Loaded1
-end]]
-local Loaded2 = false
-if game.PlaceVersion > 1407 then
-    PromptLib("Unsupported game version","You are at risk of getting autoban\nAre you sure you want to load Parvus?",{
-        {Text = "Yes",LayoutOrder = 0,Primary = false,Callback = function() Loaded2 = true end},
-        {Text = "No",LayoutOrder = 0,Primary = true,Callback = function() end}
-    }) repeat task.wait(0.5) until Loaded2
-end
-
---local ReplicatedStorage = game:GetService("ReplicatedStorage")
---local Tortoiseshell = getupvalue(require(ReplicatedStorage.TS),2)
--- // TODO: Get LocalPlayer Character
-
 local SilentAim,Aimbot,Trigger,AutoshootHitbox = nil,false,false,nil
 local Tortoiseshell,HitmarkerScripts,WeaponModel = getupvalue(require(ReplicatedStorage.TS),1),{},nil
 local ProjectileSpeed,ProjectileGravity,GravityCorrection = 1600,150,2--Vector3.new(0,150,0),2

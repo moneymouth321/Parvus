@@ -11,11 +11,27 @@ local Mouse = LocalPlayer:GetMouse();
 
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
-local ScreenGui = Instance.new('ScreenGui');
-ProtectGui(ScreenGui);
+local ScreenGui = nil
 
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global;
-ScreenGui.Parent = CoreGui;
+do -- make sure it draws over EVERYTHING (except console)
+    ScreenGui = Instance.new('ScreenGui');
+
+    --[[local coregui_children = CoreGui:GetChildren()
+
+    for i, v in pairs(coregui_children) do
+        v.Parent = nil
+    end--]]
+
+    ProtectGui(ScreenGui);
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
+    ScreenGui.Parent = CoreGui;
+    ScreenGui.DisplayOrder = 0
+    sethiddenproperty(ScreenGui, "OnTopOfCoreBlur", true)
+
+    --[[for i, v in pairs(coregui_children) do
+        v.Parent = CoreGui
+    end--]]
+end
 
 local Toggles = {};
 local Options = {};
@@ -2681,7 +2697,7 @@ end;
 do
     Library.NotificationArea = Library:Create('Frame', {
         BackgroundTransparency = 1;
-        Position = UDim2.new(0, 0, 0, 40);
+        Position = UDim2.new(0, 5, 0, -30);
         Size = UDim2.new(0, 300, 0, 200);
         ZIndex = 100;
         Parent = ScreenGui;
@@ -2855,7 +2871,7 @@ function Library:Notify(Text, Time)
 
     local NotifyOuter = Library:Create('Frame', {
         BorderColor3 = Color3.new(0, 0, 0);
-        Position = UDim2.new(0, 100, 0, 10);
+        Position = UDim2.new(0, 100, 0, 0);
         Size = UDim2.new(0, 0, 0, YSize);
         ClipsDescendants = true;
         ZIndex = 100;
@@ -2913,7 +2929,7 @@ function Library:Notify(Text, Time)
         Parent = InnerFrame;
     });
 
-    local LeftColor = Library:Create('Frame', {
+    --[[local LeftColor = Library:Create('Frame', {
         BackgroundColor3 = Library.AccentColor;
         BorderSizePixel = 0;
         Position = UDim2.new(0, -1, 0, -1);
@@ -2924,14 +2940,14 @@ function Library:Notify(Text, Time)
 
     Library:AddToRegistry(LeftColor, {
         BackgroundColor3 = 'AccentColor';
-    }, true);
+    }, true);--]]
 
-    pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, XSize + 8 + 4, 0, YSize), 'Out', 'Quad', 0.4, true);
+    pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, XSize + 8 + 4, 0, YSize), 'Out', 'Bounce', 0.4, true);
 
     task.spawn(function()
         wait(Time or 5);
 
-        pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, 0, 0, YSize), 'Out', 'Quad', 0.4, true);
+        pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, 0, 0, YSize), 'Out', 'Bounce', 0.4, true);
 
         wait(0.4);
 

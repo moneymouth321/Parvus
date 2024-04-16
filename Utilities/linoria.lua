@@ -1105,7 +1105,7 @@ do
 
         local ContainerLabel = Library:CreateLabel({
             TextXAlignment = Enum.TextXAlignment.Left;
-            Size = UDim2.new(1, 0, 0, 18);
+            Size = UDim2.new(1, 0, 0, 20);
             TextSize = 13;
             Visible = false;
             ZIndex = 110;
@@ -1179,7 +1179,7 @@ do
 
             for _, Label in next, Library.KeybindContainer:GetChildren() do
                 if Label:IsA('TextLabel') and Label.Visible then
-                    YSize = YSize + 18;
+                    YSize = YSize + 20;
                     if (Label.TextBounds.X > XSize) then
                         XSize = Label.TextBounds.X
                     end
@@ -2697,14 +2697,14 @@ end;
 do
     Library.NotificationArea = Library:Create('Frame', {
         BackgroundTransparency = 1;
-        Position = UDim2.new(0, 5, 0, -30);
+        Position = UDim2.new(0, 5, 0, 0);
         Size = UDim2.new(0, 300, 0, 200);
         ZIndex = 100;
         Parent = ScreenGui;
     });
 
     Library:Create('UIListLayout', {
-        Padding = UDim.new(0, 4);
+        Padding = UDim.new(0, 6);
         FillDirection = Enum.FillDirection.Vertical;
         SortOrder = Enum.SortOrder.LayoutOrder;
         Parent = Library.NotificationArea;
@@ -2783,7 +2783,7 @@ do
     });
 
     local KeybindInner = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor;
+        BackgroundColor3 = Color3.fromRGB(40, 40, 40);
         BorderColor3 = Library.OutlineColor;
         BorderMode = Enum.BorderMode.Inset;
         Size = UDim2.new(1, 0, 1, 0);
@@ -2797,11 +2797,21 @@ do
     }, true);
 
     local ColorFrame = Library:Create('Frame', {
-        BackgroundColor3 = Library.AccentColor;
+        BackgroundColor3 = Color3.new(1, 1, 1);
         BorderSizePixel = 0;
         Size = UDim2.new(1, 0, 0, 1);
         ZIndex = 102;
         Parent = KeybindInner;
+    });
+
+    local Gradien2t = Library:Create('UIGradient', {
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 66, 252)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(252, 10, 107)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(151, 252, 0)),
+        });
+        Rotation = 0;
+        Parent = ColorFrame;
     });
 
     Library:AddToRegistry(ColorFrame, {
@@ -2830,8 +2840,8 @@ do
         BackgroundTransparency = 0;
         Size = UDim2.new(1, -2, 0, 18);
         Position = UDim2.new(0, 1, 0, 2);
-        BackgroundColor3 = Color3.fromRGB(28, 28, 28);
-        BorderColor3 = Color3.fromRGB(15, 15, 15);
+        BackgroundColor3 = Color3.fromRGB(32, 32, 32);
+        BorderColor3 = Color3.fromRGB(23, 23, 23);
         ZIndex = 101;
         Parent = KeybindInner;
     });
@@ -2954,6 +2964,120 @@ function Library:Notify(Text, Time)
         NotifyOuter:Destroy();
     end);
 end;
+
+do -- watermark
+    local watermark_text = ""
+    local XSize, YSize = Library:GetTextBounds(watermark_text, Library.Font, 14);
+
+    YSize = YSize + 8
+    XSize = XSize + 9
+
+    local NotifyOuter = Library:Create('Frame', {
+        BorderColor3 = Color3.new(0, 0, 0);
+        Position = UDim2.new(0, 5, 0, -30);
+        Size = UDim2.new(0, XSize, 0, YSize);
+        ClipsDescendants = true;
+        ZIndex = 100;
+        Parent = ScreenGui;
+    });
+
+    local NotifyInner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.OutlineColor;
+        BorderMode = Enum.BorderMode.Inset;
+        Size = UDim2.new(1, 0, 1, 0);
+        ZIndex = 101;
+        Parent = NotifyOuter;
+    });
+
+    Library:AddToRegistry(NotifyInner, {
+        BackgroundColor3 = 'MainColor';
+        BorderColor3 = 'OutlineColor';
+    }, true);
+
+    local InnerFrame = Library:Create('Frame', {
+        BackgroundColor3 = Color3.new(1, 1, 1);
+        BorderSizePixel = 0;
+        Position = UDim2.new(0, 1, 0, 1);
+        Size = UDim2.new(1, -2, 1, -2);
+        ZIndex = 102;
+        Parent = NotifyInner;
+    });
+
+    local Gradient = Library:Create('UIGradient', {
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Library:GetDarkerColor(Library.MainColor)),
+            ColorSequenceKeypoint.new(1, Library.MainColor),
+        });
+        Rotation = -90;
+        Parent = InnerFrame;
+    });
+
+    Library:AddToRegistry(Gradient, {
+        Color = function()
+            return ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Library:GetDarkerColor(Library.MainColor)),
+                ColorSequenceKeypoint.new(1, Library.MainColor),
+            });
+        end
+    });
+
+    local TopLine = Library:Create('Frame', {
+        BackgroundColor3 = Color3.new(1, 1, 1);
+        BorderSizePixel = 0;
+        Position = UDim2.new(0, 1, 0, 1);
+        Size = UDim2.new(1, -2, 0, 1);
+        ZIndex = 109;
+        Parent = NotifyInner;
+    });
+
+    local Gradien2t = Library:Create('UIGradient', {
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 66, 252)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(252, 10, 107)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(151, 252, 0)),
+        });
+        Rotation = 0;
+        Parent = TopLine;
+    });
+
+    Library:AddToRegistry(TopLine, {
+        BackgroundColor3 = 'AccentColor';
+    }, true);
+
+    local NotifyLabel = Library:CreateLabel({
+        Position = UDim2.new(0, 4, 0, 0);
+        Size = UDim2.new(1, -4, 1, 0);
+        Text = watermark_text;
+        TextXAlignment = Enum.TextXAlignment.Left;
+        TextSize = 14;
+        ZIndex = 103;
+        Parent = InnerFrame;
+    });
+
+    local FrameTimer = tick()
+    local FrameCounter = 0;
+    local FPS = 60;
+
+    local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(function()
+        FrameCounter += 1;
+
+        if (tick() - FrameTimer) >= 1 then
+            FPS = FrameCounter;
+            FrameTimer = tick();
+            FrameCounter = 0;
+        end;
+
+        local watermark_text = ('otterhook v1.0 | dev | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
+
+        XSize, YSize = Library:GetTextBounds(watermark_text, Library.Font, 14);
+        YSize = YSize + 10
+        XSize = XSize + 11
+
+        NotifyOuter.Size = UDim2.new(0, XSize, 0, YSize)
+        NotifyLabel.Text = watermark_text
+    end)
+end
 
 function Library:CreateWindow(...)
     local Arguments = { ... }

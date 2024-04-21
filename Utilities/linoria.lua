@@ -3068,7 +3068,7 @@ do -- watermark
             FrameCounter = 0;
         end;
 
-        local watermark_text = ('otterhook v1.0 | dev | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
+        local watermark_text = ('otterhook v1.0 | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
 
         XSize, YSize = Library:GetTextBounds(watermark_text, Library.Font, 14);
         YSize = YSize + 10

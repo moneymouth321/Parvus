@@ -13,24 +13,13 @@ local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local ScreenGui = nil
 
-do -- make sure it draws over EVERYTHING (except console)
+do
     ScreenGui = Instance.new('ScreenGui');
-
-    --[[local coregui_children = CoreGui:GetChildren()
-
-    for i, v in pairs(coregui_children) do
-        v.Parent = nil
-    end--]]
-
     ProtectGui(ScreenGui);
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
     ScreenGui.Parent = CoreGui;
     ScreenGui.DisplayOrder = 0
     sethiddenproperty(ScreenGui, "OnTopOfCoreBlur", true)
-
-    --[[for i, v in pairs(coregui_children) do
-        v.Parent = CoreGui
-    end--]]
 end
 
 local Toggles = {};
@@ -48,7 +37,7 @@ local Library = {
     FontColor = Color3.fromRGB(255, 255, 255);
     MainColor = Color3.fromRGB(38, 38, 38);
     BackgroundColor = Color3.fromRGB(27, 27, 27);
-    AccentColor = Color3.fromRGB(0, 147, 255);
+    AccentColor = Color3.fromRGB(50, 58, 211);
     OutlineColor = Color3.fromRGB(65, 65, 65);
     RiskColor = Color3.fromRGB(255, 50, 50),
 
@@ -3068,7 +3057,7 @@ do -- watermark
             FrameCounter = 0;
         end;
 
-        local watermark_text = ('otterhook v1.0 | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
+        local watermark_text = ('otterhook v1.1 | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
 
         XSize, YSize = Library:GetTextBounds(watermark_text, Library.Font, 14);
         YSize = YSize + 10
@@ -3106,7 +3095,7 @@ function Library:CreateWindow(...)
         Tabs = {};
     };
 
-    local Outer = Library:Create('Frame', {
+    --[[local Outer = Library:Create('Frame', {
         AnchorPoint = Config.AnchorPoint,
         BackgroundColor3 = Color3.new(0, 0, 0);
         BorderSizePixel = 0;
@@ -3141,33 +3130,23 @@ function Library:CreateWindow(...)
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 1;
         Parent = Inner;
-    });
+    });--]]
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
-        Position = UDim2.new(0, 8, 0, 25);
-        Size = UDim2.new(1, -16, 1, -33);
+        Position = Config.Position;
+        Size = Config.Size;
+        Visible = false;
         ZIndex = 1;
-        Parent = Inner;
+        Parent = ScreenGui;
     });
+
+    Library:MakeDraggable(MainSectionOuter, 25);
 
     Library:AddToRegistry(MainSectionOuter, {
         BackgroundColor3 = 'BackgroundColor';
         BorderColor3 = 'OutlineColor';
-    });
-
-    local rapist = Library:Create('Frame', {
-        BackgroundColor3 = Library.AccentColor;
-        Position = UDim2.new(0, 8, 0, 25);
-        BorderSizePixel = 0;
-        Size = UDim2.new(1, -16, 0, 1);
-        ZIndex = 1;
-        Parent = Inner;
-    });
-
-    Library:AddToRegistry(rapist, {
-        BackgroundColor3 = 'AccentColor';
     });
 
     local MainSectionInner = Library:Create('Frame', {
@@ -3182,6 +3161,29 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(MainSectionInner, {
         BackgroundColor3 = 'BackgroundColor';
+    });
+
+    local rapist = Library:Create('Frame', {
+        BackgroundColor3 = Library.AccentColor;
+        BorderSizePixel = 0;
+        Size = UDim2.new(1, 0, 0, 1);
+        BackgroundColor3 = Color3.new(1, 1, 1);
+        ZIndex = 1;
+        Parent = MainSectionInner;
+    });
+
+    Library:AddToRegistry(rapist, {
+        BackgroundColor3 = 'AccentColor';
+    });
+
+    local hm = Library:Create('UIGradient', {
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 66, 252)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(252, 10, 107)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(151, 252, 0)),
+        });
+        Rotation = 0;
+        Parent = rapist;
     });
 
     local TabArea = Library:Create('Frame', {
@@ -3364,7 +3366,7 @@ function Library:CreateWindow(...)
                 BackgroundColor3 = Library.BackgroundColor;
                 BorderColor3 = Library.OutlineColor;
                 BorderMode = Enum.BorderMode.Inset;
-                Size = UDim2.new(1, 0, 0, 507 + 2);
+                Size = UDim2.new(1, 0, 0, 100 + 2);
                 ZIndex = 2;
                 Parent = Info.Side == 1 and LeftSide or RightSide;
             });
@@ -3391,7 +3393,16 @@ function Library:CreateWindow(...)
             local Highlight = Library:Create('Frame', {
                 BackgroundColor3 = Library.AccentColor;
                 BorderSizePixel = 0;
-                Size = UDim2.new(1, 0, 0, 1);
+                Position = UDim2.new(0, Library:GetTextBounds(Info.Name, Library.Font, 14) + 14, 0, 0);
+                Size = UDim2.new(1, -8, 0, 1);
+                ZIndex = 6;
+                Parent = BoxInner;
+            });
+
+            local Highlight2 = Library:Create('Frame', {
+                BackgroundColor3 = Library.AccentColor;
+                BorderSizePixel = 0;
+                Size = UDim2.new(0, 10, 0, 1);
                 ZIndex = 6;
                 Parent = BoxInner;
             });
@@ -3408,7 +3419,7 @@ function Library:CreateWindow(...)
 
             local GroupboxLabel = Library:CreateLabel({
                 Size = UDim2.new(1, 0, 0, 18);
-                Position = UDim2.new(0, 4, 0, 1.5);
+                Position = UDim2.new(0, 12, 0, -7);
                 TextSize = 14;
                 Text = Info.Name;
                 TextXAlignment = Enum.TextXAlignment.Left;
@@ -3418,7 +3429,7 @@ function Library:CreateWindow(...)
 
             local Container = Library:Create('Frame', {
                 BackgroundTransparency = 1;
-                Position = UDim2.new(0, 4, 0, 20);
+                Position = UDim2.new(0, 4, 0, 11);
                 Size = UDim2.new(1, -4, 1, -20);
                 ZIndex = 1;
                 Parent = BoxInner;
@@ -3439,7 +3450,7 @@ function Library:CreateWindow(...)
                     end;
                 end;
 
-                BoxOuter.Size = UDim2.new(1, 0, 0, 20 + Size + 2 + 2);
+                BoxOuter.Size = UDim2.new(1, 0, 0, 12 + Size + 2 + 2);
             end;
 
             Groupbox.Container = Container;
@@ -3700,11 +3711,17 @@ function Library:CreateWindow(...)
 
         if Toggled then
             -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
-            Outer.Visible = true;
+            MainSectionOuter.Visible = true;
 
             task.spawn(function()
                 -- TODO: add cursor fade?
                 local State = InputService.MouseIconEnabled;
+
+                local Line2 = Drawing.new('Line');
+                Line2.Thickness = 5.5;
+                Line2.Visible = true;
+                Line2.Transparency = 0.8
+                Line2.Color = Color3.new(0, 0, 0);
 
                 local Cursor = Drawing.new('Triangle');
                 Cursor.Thickness = 1;
@@ -3712,10 +3729,15 @@ function Library:CreateWindow(...)
                 Cursor.Visible = true;
 
                 local CursorOutline = Drawing.new('Triangle');
-                CursorOutline.Thickness = 1;
+                CursorOutline.Thickness = 2;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
                 CursorOutline.Visible = true;
+                CursorOutline.Transparency = 0.8
+
+                local Line = Drawing.new('Line');
+                Line.Thickness = 2;
+                Line.Visible = true;
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
@@ -3723,6 +3745,13 @@ function Library:CreateWindow(...)
                     local mPos = InputService:GetMouseLocation();
 
                     Cursor.Color = Library.AccentColor;
+                    Line.Color = Library.AccentColor;
+
+                    Line.From = Vector2.new(mPos.X + 2, mPos.Y + 2);
+                    Line.To = Vector2.new(mPos.X + 22, mPos.Y + 21);
+
+                    Line2.From = Line.From
+                    Line2.To = Line.To + Vector2.new(1, 1)
 
                     Cursor.PointA = Vector2.new(mPos.X, mPos.Y);
                     Cursor.PointB = Vector2.new(mPos.X + 16, mPos.Y + 6);
@@ -3739,10 +3768,12 @@ function Library:CreateWindow(...)
 
                 Cursor:Remove();
                 CursorOutline:Remove();
+                Line:Remove();
+                Line2:Remove();
             end);
         end;
 
-        for _, Desc in next, Outer:GetDescendants() do
+        for _, Desc in next, MainSectionOuter:GetDescendants() do
             local Properties = {};
 
             if Desc:IsA('ImageLabel') then
@@ -3778,7 +3809,7 @@ function Library:CreateWindow(...)
 
         task.wait(FadeTime);
 
-        Outer.Visible = Toggled;
+        MainSectionOuter.Visible = Toggled;
 
         Fading = false;
     end
@@ -3795,7 +3826,7 @@ function Library:CreateWindow(...)
 
     if Config.AutoShow then task.spawn(Library.Toggle) end
 
-    Window.Holder = Outer;
+    Window.Holder = MainSectionOuter;
 
     return Window;
 end;

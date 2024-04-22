@@ -1,3 +1,4 @@
+local loading_tick = tick()
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
 local CoreGui = game:GetService('CoreGui');
@@ -3133,7 +3134,7 @@ function Library:CreateWindow(...)
     });--]]
 
     local MainSectionOuter = Library:Create('Frame', {
-	AnchorPoint = Config.AnchorPoint,
+        AnchorPoint = Config.AnchorPoint,
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
         Position = Config.Position;

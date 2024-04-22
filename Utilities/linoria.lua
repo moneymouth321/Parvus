@@ -1,4 +1,3 @@
-local loading_tick = tick()
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
 local CoreGui = game:GetService('CoreGui');
@@ -3058,7 +3057,7 @@ do -- watermark
             FrameCounter = 0;
         end;
 
-        local watermark_text = ('otterhook v1.1 | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
+        local watermark_text = ('otterhook v1.1 [BETA] | %s fps | %s ms'):format(math.floor(FPS), math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
 
         XSize, YSize = Library:GetTextBounds(watermark_text, Library.Font, 14);
         YSize = YSize + 10
@@ -3396,7 +3395,7 @@ function Library:CreateWindow(...)
                 BackgroundColor3 = Library.AccentColor;
                 BorderSizePixel = 0;
                 Position = UDim2.new(0, Library:GetTextBounds(Info.Name, Library.Font, 14) + 14, 0, 0);
-                Size = UDim2.new(1, -8, 0, 1);
+                Size = UDim2.new(1, -(Library:GetTextBounds(Info.Name, Library.Font, 14) + 14), 0, 1);
                 ZIndex = 6;
                 Parent = BoxInner;
             });
@@ -3719,11 +3718,11 @@ function Library:CreateWindow(...)
                 -- TODO: add cursor fade?
                 local State = InputService.MouseIconEnabled;
 
-                local Line2 = Drawing.new('Line');
+                --[[local Line2 = Drawing.new('Line');
                 Line2.Thickness = 5.5;
                 Line2.Visible = true;
                 Line2.Transparency = 0.8
-                Line2.Color = Color3.new(0, 0, 0);
+                Line2.Color = Color3.new(0, 0, 0);--]]
 
                 local Cursor = Drawing.new('Triangle');
                 Cursor.Thickness = 1;
@@ -3731,15 +3730,15 @@ function Library:CreateWindow(...)
                 Cursor.Visible = true;
 
                 local CursorOutline = Drawing.new('Triangle');
-                CursorOutline.Thickness = 2;
+                CursorOutline.Thickness = 2.2;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
                 CursorOutline.Visible = true;
-                CursorOutline.Transparency = 0.8
+                CursorOutline.Transparency = 1
 
-                local Line = Drawing.new('Line');
+                --[[local Line = Drawing.new('Line');
                 Line.Thickness = 2;
-                Line.Visible = true;
+                Line.Visible = true;--]]
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
@@ -3747,13 +3746,13 @@ function Library:CreateWindow(...)
                     local mPos = InputService:GetMouseLocation();
 
                     Cursor.Color = Library.AccentColor;
-                    Line.Color = Library.AccentColor;
+                    --[[Line.Color = Library.AccentColor;
 
                     Line.From = Vector2.new(mPos.X + 2, mPos.Y + 2);
                     Line.To = Vector2.new(mPos.X + 22, mPos.Y + 21);
 
                     Line2.From = Line.From
-                    Line2.To = Line.To + Vector2.new(1, 1)
+                    Line2.To = Line.To + Vector2.new(1, 1)--]]
 
                     Cursor.PointA = Vector2.new(mPos.X, mPos.Y);
                     Cursor.PointB = Vector2.new(mPos.X + 16, mPos.Y + 6);
@@ -3770,8 +3769,8 @@ function Library:CreateWindow(...)
 
                 Cursor:Remove();
                 CursorOutline:Remove();
-                Line:Remove();
-                Line2:Remove();
+                --Line:Remove();
+                --Line2:Remove();
             end);
         end;
 

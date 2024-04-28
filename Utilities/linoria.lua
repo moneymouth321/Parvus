@@ -42,7 +42,7 @@ local Library = {
     RiskColor = Color3.fromRGB(255, 50, 50),
 
     Black = Color3.new(0, 0, 0);
-    Font = Enum.Font.Code,
+    Font = getgenv().font,
 
     OpenedFrames = {};
     DependencyBoxes = {};
@@ -50,6 +50,8 @@ local Library = {
     Signals = {};
     ScreenGui = ScreenGui;
 };
+
+getgenv().font = nil
 
 local RainbowStep = 0
 local Hue = 0
